@@ -23,7 +23,6 @@ Robot control is done using the low level UR External Control Interface, connect
 ![image info](./img/UR10e.png)
 
 ### Gripper and custom fingertips
-[TODO]
 We designed our own custom 3D printed fingertips in order to improved dexterity and be able to all the tasks. Those fingertips provide four surfaces of interest:
 
 ![image info](./img/gripper0.png)
