@@ -7,7 +7,7 @@
 The following images give an overview of the robotic setup. The main visible components are:
 
 - UR10e
-- Robotiq Hand-E gripper
+- Robotiq Hand-E gripper with custom fingertips
 - Photoneo M 3D scanner
 - Webcam Logitech C920 mounted on robot wrist for slider adjustment
 - Webcam Logitech C920 mounted on multimeter for the BYOD task
@@ -22,15 +22,16 @@ Robot control is done using the low level UR External Control Interface, connect
 
 ![image info](./img/UR10e.png)
 
-### Gripper
+### Gripper and custom fingertips
 [TODO]
-We use the Robotiq Hand-E gripper, with custom 3D printed fingertips. 
-Those fingertips provide 3 surfaces of interest for improved dexterity, as illustrated in the next figure:
-- clamping surface: the main gripping area, approx. 30x30mm, covered with rubber for improved gripping capability. Used for general grasping tasks.
-- pressing surface: the tip of each jaw is covered with rubber (approx. 10x30mm) to enable shear forces application. Used for battery lid removal.
-- steel blade: each jaw is equipped with a small (non cutting) steel blade, to provide fine poking and clawing capability. Used for batteries removal.
+We designed our own custom 3D printed fingertips in order to improved dexterity and be able to all the tasks. Those fingertips provide four surfaces of interest:
 
-![image info](./img/hande.png)
+![image info](./img/gripper0.png)
+![image info](./img/custom_mors.JPG)
+![image info](./img/gripper1.png)
+![image info](./img/gripper2.png)
+
+We connected the gripper to the robot and used a standard ROS controller for robotiq gripper to control the clamping force, the finger spacing, and the opening speed.
 
 ### Localization
 
@@ -52,7 +53,7 @@ In task 2, the wrist webcam is used to segment the cursors area and find the cur
 
 ### Bring-your-own-device (BYOD) Challenge
 
-We chose to probe a group of LR06 batteries. To do so, we use our vision system to localize the batteries, then grasp then one by one and insert them in a custom 3D printed lodging. The lodging can hold one of the multimeter probes, allowing our one-handed robot to do the measurement with the other probe. A webcam provides the multimeter image to perform character recognition and retrieve the battery voltage.
+We chose to probe a group of LR06 batteries. To do so, we use our vision system to localize the batteries, then grasp them one by one and insert them in a custom 3D printed lodging. The lodging can hold one of the multimeter probes, allowing our one-handed robot to do the measurement with the other probe. A webcam provides the multimeter image to perform character recognition and retrieve the battery voltage.
 ![image info](./img/BYOD_0.JPG)
 ![image info](./img/BYOD_1.JPG)
 ![image info](./img/BYOD_2.JPG)
@@ -61,7 +62,7 @@ We chose to probe a group of LR06 batteries. To do so, we use our vision system 
 ## Software dependency list
 
 The main software modules needed to operate the system are:
-- CEA LIST Phosphorus framework: Phosphorus is a tool combining a user GUI and an execution engine, dedicated to graphical design of vision-based algorithms. It is based on dataflow diagrams, and provides a rich library of algorithms both developped at CEA and from well-known third party libraries such as open-cv and so on. 
+- CEA LIST Phosphor framework: Phosphor is a tool combining a user GUI and an execution engine, dedicated to graphical design of vision-based algorithms. It is based on dataflow diagrams, and provides a rich library of algorithms both developped at CEA and from well-known third party libraries such as open-cv and so on. 
 - ROS: used as a communication middleware to trig Phosphorus frameworks, as well as a skill server.
 
 The Phosphorus diagram for the Photoneo object localization features:
@@ -69,13 +70,16 @@ The Phosphorus diagram for the Photoneo object localization features:
 
 
 Those modules use various third party C++ and Python libraries, all of them being open-source projects, such as :
-- Eigen : for C++ matrix computations
-- Numpy : for python mathematical computations
-- Open-CV : for 2D/3D image computation
-- ROS : for communication and robot handling
+- Cuda: for acceleration in object localization pipeline
+- Vulkan: for renderings in object localization pipeline
+- Eigen: for C++ matrix computations
+- Numpy: for python mathematical computations
+- Open-CV: for 2D/3D image computation
+- ROS Melodic: for communication and robot handling
+- Universal Robot ROS driver
+- ur_robot_driver: http://wiki.ros.org/ur_robot_driver
 
 ## Quick start guide
-[TODO]
 The typical execution workflow follows these steps. All supervision is done from the "skills" computer. 
 
 ### Robot
