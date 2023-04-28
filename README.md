@@ -62,11 +62,12 @@ We chose to probe a group of LR06 batteries. To do so, we use our vision system 
 
 The main software modules needed to operate the system are:
 - CEA LIST Phosphor framework: Phosphor is a tool combining a user GUI and an execution engine, dedicated to graphical design of vision-based algorithms. It is based on dataflow diagrams, and provides a rich library of algorithms both developped at CEA and from well-known third party libraries such as open-cv and so on. 
-- ROS: used as a communication middleware to trig Phosphorus frameworks, as well as a skill server.
+- ROS (Melodic): used as a communication middleware to trig Phosphorus frameworks, and control both the robot and the gripper with actions. We chose to use the [forward cartesian trajectory controller]([url](https://github.com/UniversalRobots/Universal_Robots_ROS_Driver/blob/master/ur_robot_driver/doc/controllers.md#forward_cartesian_traj_controller)), so that the trajectory generation is done on the robot itself. The whole process is done with position control.
 
 The Phosphorus diagram for the Photoneo object localization features:
 ![image info](./img/gui_Phosphorus.png)
-
+![image info](./img/rqt_graph1.png)
+![image info](./img/rqt_graph2.png)
 
 Those modules use various third party C++ and Python libraries, all of them being open-source projects, such as :
 - Cuda: for acceleration in object localization pipeline
@@ -74,7 +75,7 @@ Those modules use various third party C++ and Python libraries, all of them bein
 - Eigen: for C++ matrix computations
 - Numpy: for python mathematical computations
 - Open-CV: for 2D/3D image computation
-- ROS Melodic: for communication and robot handling
+- actionlib : this is the basic library to use ROS actions
 - Universal Robot ROS driver
 - ur_robot_driver: http://wiki.ros.org/ur_robot_driver
 
@@ -99,19 +100,10 @@ export ROS_IP=$IP_ADDRESS
 roslaunch robothon2023_pkg controllers.launch  
 
 
-### Record a cartesian pose /!\ of the TCP in the robot base 
-roslaunch robothon2023_pkg controllers.launch
-rosrun robothon2023_pkg register_pose.py --> This will be saved in ~/newrobothon_ws/src/robothon2023_pkg/bagfiles/registered_pose.md
+### Record a pose
+roslaunch robothon2023_pkg controllers.launch  
+rosrun robothon2023_pkg register_pose.py  
+You can choose to register the joints pose or the TCP pose either in robot or board frame (you will be prompted the question and the node will wait for your input).
+This will either be saved in ~/newrobothon_ws/src/robothon2023_pkg/bagfiles/registered_pose_robot.md, registered_pose_board.md or registered_pose_joints.md depending on your choice.
 
 You can find positions of the important points of the board in the board base in ~/newrobothon_ws/src/robothon2023_pkg/bagfiles/position_robothon.txt (taken from a scan of the board in MeshLab)
-
-### Record trajectory
-rosbag record -O subset /joint_states/position
-
-order of joints in joint_states :
-  - elbow_joint == elbow
-  - shoulder_lift_joint == shoulder
-  - shoulder_pan_joint == base
-  - wrist_1_joint
-  - wrist_2_joint
-  - wrist_3_joint
