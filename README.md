@@ -62,7 +62,7 @@ We chose to probe a group of LR06 batteries. To do so, we use our vision system 
 
 The main software modules needed to operate the system are:
 - CEA LIST Phosphor framework: Phosphor is a tool combining a user GUI and an execution engine, dedicated to graphical design of vision-based algorithms. It is based on dataflow diagrams, and provides a rich library of algorithms both developped at CEA and from well-known third party libraries such as open-cv and so on. 
-- ROS (Melodic): used as a communication middleware to trig Phosphorus frameworks, and control both the robot and the gripper with actions. We chose to use the [forward cartesian trajectory controller]([url](https://github.com/UniversalRobots/Universal_Robots_ROS_Driver/blob/master/ur_robot_driver/doc/controllers.md#forward_cartesian_traj_controller)), so that the trajectory generation is done on the robot itself. The whole process is done with position control.
+- ROS (Melodic): used as a communication middleware to trig Phosphorus frameworks, and control both the robot and the gripper with actions. We chose to use the [forward cartesian trajectory controller]([url](https://github.com/UniversalRobots/Universal_Robots_ROS_Driver/blob/master/ur_robot_driver/doc/controllers.md#forward_cartesian_traj_controller)), so that the trajectory generation is done on the robot itself, which we found out was more efficient and less hazardous than using MoveIt!. The whole process is done with position control.
 
 The Phosphorus diagram for the Photoneo object localization features:
 ![image info](./img/gui_Phosphorus.png)
